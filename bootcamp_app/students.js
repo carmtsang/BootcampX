@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
 
+const commandLineArg = process.argv.slice(2);
+
 const pool = new Pool({
   user: 'vagrant',
   password: '123',
@@ -11,7 +13,8 @@ pool.query(`
 SELECT students.id as student_id, students.name as student_name, cohorts.name as cohort
 FROM students
 JOIN cohorts ON cohorts.id = cohort_id
-LIMIT 5;
+WHERE cohorts.name LIKE '${commandLineArg[0]}%'
+LIMIT ${commandLineArg[1]};
 `)
 .then(res => {
   res.rows.forEach(user => {
