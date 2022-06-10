@@ -13,8 +13,8 @@ pool.query(`
 SELECT students.id as student_id, students.name as student_name, cohorts.name as cohort
 FROM students
 JOIN cohorts ON cohorts.id = cohort_id
-WHERE cohorts.name LIKE '${commandLineArg[0]}%'
-LIMIT ${commandLineArg[1]};
+WHERE cohorts.name LIKE '%${commandLineArg[0]}%'
+LIMIT ${commandLineArg[1] || 5};
 `)
 .then(res => {
   res.rows.forEach(user => {
